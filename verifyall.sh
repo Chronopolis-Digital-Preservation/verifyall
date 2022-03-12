@@ -17,6 +17,14 @@ if [ ! -f $COMPLETED ]; then
   touch $COMPLETED
 fi
 
+BAG=bagit-4.10.0-SNAPSHOT/bin/bag
+if ! java --version; then
+  exit 1
+fi
+if ! $BAG --version; then
+  exit 1
+fi
+
 if [ -f $ALL ]; then
   echo "OVERWRITING ALL $ALL"
 fi
@@ -42,7 +50,7 @@ while read path; do
   fi
   echo -n "START $path "
   date +%F-%T
-  bag verifyvalid --noresultfile $path >& $tmp
+  $BAG verifyvalid --noresultfile $path >& $tmp
   if [ $? -ne 0 ]; then
     echo "VERIFY FAILED $path" >> $COMPLETED
     echo "VERIFY FAILED $path"

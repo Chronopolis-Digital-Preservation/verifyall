@@ -1,10 +1,23 @@
 #!/bin/bash
 
+NET=/sys/class/net/ens192/statistics/rx_bytes
+LOG=/var/log/chronopolis/transfer_rates
+
+if [ ! -f $NET ]; then
+  echo "MISSING NET $NET"
+  exit 1
+fi
+
+if ! touch $LOG; then
+  echo "MISSING PATH OR WRONG OWNER?"
+  exit 1
+fi
+
 rx1=0;
 rx2=0;
 
 while true ; do
-	rx2=`cat /sys/class/net/ens192/statistics/rx_bytes`
+	rx2=`cat $NET`
 	bytes_per_sec=`expr $rx2 - $rx1`
 	kb_per_sec=`expr $bytes_per_sec / 1024`
 	mb_per_sec=`expr $kb_per_sec / 1024`
