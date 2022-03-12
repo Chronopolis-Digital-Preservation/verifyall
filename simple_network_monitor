@@ -23,7 +23,7 @@ while true ; do
 	mb_per_sec=`expr $kb_per_sec / 1024`
 	date=`date`
 	if [ $kb_per_sec -gt 500 ]; then
-		printf "%s: %s\t%s\t%s\n" "$date" "$bytes_per_sec" "$kb_per_sec" "$mb_per_sec" >> /var/log/chronopolis/transfer_rates
+		printf "%s: %s\t%s\t%s\n" "$date" "$bytes_per_sec" "$kb_per_sec" "$mb_per_sec" >> $LOG
 	fi
 	sleep 1
 	rx1=$rx2
