@@ -54,6 +54,8 @@ Thanks to Bernd Schlör <bernd.schloer@gwdg.de>
 
 ## configure
 Replace ens192 with the network interface to your storage
+
+$LOG needs to be writable by whoever runs the monitor
 ```
 vi simple_network_monitor
 NET=/sys/class/net/ens192/statistics/rx_bytes
