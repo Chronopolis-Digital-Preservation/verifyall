@@ -1,13 +1,13 @@
 # verifyall
 Script to bag verifyvalid all bags on a replication server
 
-# requirements
+## requirements
 ```
 # $BAG requires java
 # probably works with almost any version, I'm using openjdk 11
 ```
 
-# clone
+## clone
 Clone to somewhere or as someone with read access to the replication storage.
 
 I don't run this on the replication server, so that it doesn't impact
@@ -21,7 +21,7 @@ clobber the bags.
 git clone https://github.com/Chronopolis-Digital-Preservation/verifyall.git
 ```
 
-# configure
+## configure
 ```
 # $MNT is where replicationd stores bags
 # expects
@@ -43,12 +43,12 @@ COMPLETED=completed
 ALL=all
 ```
 
-# run
+## run
 ```
 ./verifyall.sh >& verifyall.out&
 ```
 
-# check progress
+## check progress
 ```
 tail -f completed
 or
