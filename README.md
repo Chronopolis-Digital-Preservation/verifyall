@@ -1,6 +1,13 @@
 # verifyall
 Script to bag verifyvalid all bags on a replication server
 
+Since this will need to run for days (from 20 to 5, depending
+upon the speed of the connection to your storage), I tried to
+write this so that it can be restarted if interrupted and pick
+up where it left off.
+
+Currently, there are about 2300 bags, total space about 72TB.
+
 ## requirements
 ```
 # $BAG requires java
