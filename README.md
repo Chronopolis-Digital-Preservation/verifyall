@@ -8,6 +8,15 @@ Script to bag verifyvalid all bags on a replication server
 ```
 
 # clone
+Clone to somewhere or as someone with read access to the replication storage.
+
+I don't run this on the replication server, so that it doesn't impact
+replication performance.  My experience is that the data rate from
+the NFS mount can reach 800MB/s, though it is often ONLY 400MB/s.
+
+On the server running verifyall, I mount the storage read-only.  The
+script only needs read access, but I also don't want any mistakes to
+clobber the bags.
 ```
 git clone https://github.com/Chronopolis-Digital-Preservation/verifyall.git
 ```
