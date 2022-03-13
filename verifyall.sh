@@ -1,12 +1,29 @@
 #!/bin/bash
 
+# $MNT is where replicationd stores bags
+# expects
+# depositor/bag
+# ...
+
+MNT=/scratch1/chronopolis-preservation
+
+# Two files will be created
+# $COMPLETED - remove this to start over
+#    syntax "<status> <path>"
+# $ALL       - compare to $COMPLETED to see progress
+#    syntax "<path>"
+
+COMPLETED=completed
+ALL=all
+
+# $BAG requires java
+# probably works with almost any version, I'm using openjdk 11
+
+BAG=bagit-4.10.0-SNAPSHOT/bin/bag
+
 prog=`basename $0`
 tmp=/tmp/$prog.$$
 trap "rm -f $tmp; echo -n 'end ' ; date +%F-%T" EXIT
-
-MNT=/scratch1/chronopolis-preservation
-COMPLETED=completed
-ALL=all
 
 if [ ! -d $MNT ]; then
   echo "MISSING MNT $MNT"
@@ -14,10 +31,11 @@ if [ ! -d $MNT ]; then
 fi
 
 if [ ! -f $COMPLETED ]; then
-  touch $COMPLETED
+  if ! touch $COMPLETED; then
+    exit 1
+  fi
 fi
 
-BAG=bagit-4.10.0-SNAPSHOT/bin/bag
 if ! java --version; then
   exit 1
 fi
@@ -30,21 +48,27 @@ if [ -f $ALL ]; then
 fi
 
 find $MNT -mindepth 2 -maxdepth 2 -type d -print > $ALL
+if [ $? -ne 0 ]; then
+  echo "FIND FAILED"
+  exit 1
+fi
 
 echo -n "start "
 date +%F-%T
 
 while read path; do
-  if ! expr "$path" : [0-9a-zA-Z_/-]* >/dev/null; then
-    echo "BAD PATH $path"
-     continue
+ # expected syntax in $COMPETED is "<status> <path>$"
+  if grep " ${path}$" $COMPLETED >/dev/null; then
+    # echo "COMPLETED $path"
+    continue
   fi
-  if grep $path $COMPLETED >/dev/null; then
-    echo "COMPLETED $path"
+  if ! expr "$path" : [0-9a-zA-Z_/-]* >/dev/null; then
+    echo "BAD PATH $path" >> $COMPLETED
+    echo "BAD PATH $path"
     continue
   fi
   if [ ! -f $path/bagit.txt ]; then
-    echo "$path MISSING bagit.txt" >> $COMPLETED
+    echo "MISSING bagit.txt $path" >> $COMPLETED
     echo "MISSING bagit.txt $path"
     continue
   fi
