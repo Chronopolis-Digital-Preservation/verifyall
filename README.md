@@ -53,6 +53,7 @@ and MBytes/second
 Thanks to Bernd Schlör <bernd.schloer@gwdg.de>
 
 ## configure
+Replace ens192 with the network interface to your storage
 ```
 vi simple_network_monitor
 NET=/sys/class/net/ens192/statistics/rx_bytes
