@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Thanks to Bernd Schlör <bernd.schloer@gwdg.de>
+
 NET=/sys/class/net/ens192/statistics/rx_bytes
 LOG=/var/log/chronopolis/transfer_rates
 

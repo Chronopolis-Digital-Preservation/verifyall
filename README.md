@@ -49,6 +49,8 @@ tail -f verifyall.out
 # monitor network performance
 simple_network_monitor creates log of MBytes/second
 
+Thanks to Bernd Schlör <bernd.schloer@gwdg.de>
+
 ## configure
 ```
 vi simple_network_monitor
