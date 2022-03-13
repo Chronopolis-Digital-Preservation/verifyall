@@ -13,7 +13,7 @@ git clone https://github.com/Chronopolis-Digital-Preservation/verifyall.git
 ```
 
 # configure
-
+```
 # $MNT is where replicationd stores bags
 # expects
 # depositor/bag
