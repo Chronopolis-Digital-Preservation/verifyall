@@ -49,19 +49,19 @@ tail -f verifyall.out
 # monitor network performance
 simple_network_monitor creates log of MBytes/second
 
-configure
+## configure
 ```
 vi simple_network_monitor
 NET=/sys/class/net/ens192/statistics/rx_bytes
 LOG=/var/log/chronopolis/transfer_rates
 ```
 
-run
+## run
 ```
 ./simple_network_monitor >& simple_network_monitor.out&
 ```
 
-monitor
+## monitor
 ```
 tail -f /var/log/chronopolis/transfer_rates
 Sun Mar 13 16:17:16 PDT 2022: 445634300 435189  424
