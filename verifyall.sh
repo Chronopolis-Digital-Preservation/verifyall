@@ -9,7 +9,7 @@ MNT=/scratch1/chronopolis-preservation
 
 # Two files will be created
 # $COMPLETED - remove this to start over
-#    syntax "<status> <path>"
+#    syntax "<status> <timestamp> <path>"
 # $ALL       - compare to $COMPLETED to see progress
 #    syntax "<path>"
 
@@ -21,9 +21,9 @@ ALL=all
 
 BAG=bagit-4.10.0-SNAPSHOT/bin/bag
 
-prog=`basename $0`
+prog=$(basename $0)
 tmp=/tmp/$prog.$$
-trap "rm -f $tmp; echo -n 'end ' ; date +%F-%T" EXIT
+trap "rm -f $tmp; echo -n 'end '; date +%F-%T" EXIT
 
 if [ ! -d $MNT ]; then
   echo "MISSING MNT $MNT"
@@ -53,35 +53,45 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-echo -n "start "
-date +%F-%T
+date=$(date +%F-%T)
+echo "start $date"
 
 while read path; do
- # expected syntax in $COMPETED is "<status> <path>$"
+ # expected syntax in $COMPETED is "<status> <timestamp> <path>$"
   if grep " ${path}$" $COMPLETED >/dev/null; then
-    # echo "COMPLETED $path"
+    echo "COMPLETED $path"
     continue
   fi
   if ! expr "$path" : [0-9a-zA-Z_/-]* >/dev/null; then
-    echo "BAD PATH $path" >> $COMPLETED
-    echo "BAD PATH $path"
+    date=$(date +%F-%T)
+    echo "BAD PATH $date $path" >> $COMPLETED
+    echo "BAD PATH $date $path"
     continue
   fi
   if [ ! -f $path/bagit.txt ]; then
-    echo "MISSING bagit.txt $path" >> $COMPLETED
-    echo "MISSING bagit.txt $path"
+    date=$(date +%F-%T)
+    echo "MISSING bagit.txt $date $path" >> $COMPLETED
+    echo "MISSING bagit.txt $date $path"
     continue
   fi
-  echo -n "START $path "
-  date +%F-%T
+  date=$(date +%F-%T)
+  echo "START $path $date"
   $BAG verifyvalid --noresultfile $path >& $tmp
-  if [ $? -ne 0 ]; then
-    echo "VERIFY FAILED $path" >> $COMPLETED
-    echo "VERIFY FAILED $path"
+  res=$?
+  # $BAG returns 130 when it gets SIGINT
+  # bash ignores SIGINT when child exits with 130
+  # so we must exit when $BAG returns 130
+  if [ $res -eq 130 ]; then
+    exit 0
+  fi
+  if [ $res -ne 0 ]; then
+    date=$(date +%F-%T)
+    echo "VERIFY FAILED $date $path" >> $COMPLETED
+    echo "VERIFY FAILED $date $path"
     cat $tmp
     continue
   fi
-  echo "OK $path" >> $COMPLETED
-  echo -n "OK $path "
-  date +%F-%T
+  date=$(date +%F-%T)
+  echo "OK $date $path" >> $COMPLETED
+  echo "OK $date $path"
 done < $ALL
