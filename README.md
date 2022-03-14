@@ -83,7 +83,7 @@ Each line in completed consists of
 <status> <timestamp> <path>
 ```
 
-<status> can be
+status can be
 - OK
 - BAD PATH  (path contains characters other than [0-9a-zA-Z_/-]*)
 - MISSING bagit.txt  (not a valid bag)
