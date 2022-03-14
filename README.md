@@ -68,14 +68,14 @@ ALL=all
 ./verifyall.sh >& verifyall.out&
 ```
 
+If you want to start over, just delete completed and re-run.
+
 ## check progress
 ```
 tail -f completed
 or
 tail -f verifyall.out
 ```
-
-If you want to start over, just delete completed and re-run.
 
 # monitor network performance
 simple_network_monitor creates log of Bytes/sec, KBytes/second,
