@@ -77,6 +77,29 @@ or
 tail -f verifyall.out
 ```
 
+## results
+Each line in completed consists of
+```
+<status> <timestamp> <path>
+```
+
+<status> can be
+- OK
+- BAD PATH  (path contains characters other than [0-9a-zA-Z_/-]*)
+- MISSING bagit.txt  (not a valid bag)
+- VERIFY FAILED  (something wrong)
+
+If you get VERIFY FAILED, then check the output from the script,
+which I redirect (including stderr) into a file verifyvalid.out.
+
+There you will find the specific error which bag verifyvalid found.
+
+For example
+```
+Result is false.
+(error) Tag manifest tagmanifest-md5.txt contains invalid files: [manifest-md5.txt]
+```
+
 # monitor network performance
 simple_network_monitor creates log of Bytes/sec, KBytes/second,
 and MBytes/second
