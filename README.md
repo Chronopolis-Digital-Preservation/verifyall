@@ -8,6 +8,19 @@ up where it left off.
 
 Currently, there are about 2300 bags, total space about 72TB.
 
+## documentation and sources
+bagit description
+
+https://www.digitalpreservation.gov/series/challenge/data-transfer-tools.html
+
+bagit github
+
+https://github.com/LibraryOfCongress/bagit-java
+
+NOTE, I use version 4 because it includes a commandline utility
+
+https://github.com/LibraryOfCongress/bagit-java/releases/download/v4.12.3/bagit-v4.12.3.zip
+
 ## requirements
 ```
 # $BAG requires java
